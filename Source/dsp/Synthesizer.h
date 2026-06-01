@@ -1,6 +1,5 @@
 #pragma once
 #include <juce_audio_basics/juce_audio_basics.h>
-#include <juce_audio_basics/synthesisers/juce_Synthesiser.h>
 #include <array>
 #include"FMSynth.h"
 
