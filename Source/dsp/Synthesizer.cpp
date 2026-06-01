@@ -76,3 +76,28 @@ float SynthVoice::renderAlgorithmSample()
 
     return output;
 }
+
+void SynthVoice::applyPresetParameters()
+{
+    if (currentPreset == FmPreset::ClassicWurly)
+    {
+        // --- STACK B: The Sustained "Body" ---
+        operators[0].setRatio(1.0f); // Carrier 1
+        operators[1].setRatio(1.0f); // Modulator 2
+
+        // A warm, sustained envelope (Attack, Decay, Sustain, Release)
+        juce::ADSR::Parameters bodyEnv { 0.01f, 3.0f, 0.0f, 0.5f }; 
+        operators[0].setEnvelopeParameters(bodyEnv);
+        operators[1].setEnvelopeParameters(bodyEnv);
+
+
+        // --- STACK A: The Transient "Tine" ---
+        operators[2].setRatio(1.0f);  // Carrier 3
+        operators[3].setRatio(14.0f); // Modulator 4 (High frequency ping!)
+
+        // A sharp, percussive envelope with NO sustain
+        juce::ADSR::Parameters tineEnv { 0.001f, 0.1f, 0.0f, 0.1f };
+        operators[2].setEnvelopeParameters(tineEnv);
+        operators[3].setEnvelopeParameters(tineEnv);
+    }
+}

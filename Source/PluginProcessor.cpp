@@ -190,7 +190,7 @@ void WeatherSoundAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiB
         lastFreq = freq;
     }*/
 
-    for (int channel = 0; channel < totalNumInputChannels; ++channel) {
+    for (int channel = 0; channel < totalNumOutputChannels; ++channel) {
         auto* channelData = buffer.getWritePointer(channel);
 
         filters[channel].setCutoffFrequency(currentFreq);

@@ -29,25 +29,35 @@ public:
     }
 
     void startNote (int midiNoteNumber, float velocity, 
-                    juce::SynthesiserSound* sound, int currentPitchWheelPosition) override
+                juce::SynthesiserSound* sound, int currentPitchWheelPosition) override
     {
         isTargetNoteActive = true;
         level = velocity;
         
-        // Convert MIDI note to frequency
         auto cyclesPerSecond = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+
+        // 1. Configure the ratios and envelopes for the current preset
+        applyPresetParameters(); 
+
+        // 2. Fire the operators!
+        for (auto& op : operators)
+        {
+            op.startNote(static_cast<float>(cyclesPerSecond), velocity);
+        }
     }
 
     void stopNote (float velocity, bool allowTailOff) override
     {
         if (allowTailOff)
         {
-            // Start release phase
-            isTargetNoteActive = false; 
+            // Tell all operators to begin their ADSR release phase
+            for (auto& op : operators)
+            {
+                op.stopNote(); 
+            }
         }
         else
         {
-            // Shut off instantly
             clearCurrentNote();
         }
     }
@@ -56,6 +66,17 @@ public:
 
     void pitchWheelMoved (int newPitchWheelValue) override {}
     void controllerMoved (int controllerNumber, int newControllerValue) override {}
+    void setCurrentPlaybackSampleRate (double newRate) override
+{
+    // Call the base class implementation first
+    juce::SynthesiserVoice::setCurrentPlaybackSampleRate(newRate);
+    
+    // Pass the sample rate down to all 4 operators
+    for (auto& op : operators)
+    {
+        op.prepareToPlay(newRate);
+    }
+}
 
     void updateEnvelopeParams (juce::ADSR::Parameters adsr);
     void updateModDepthA (float mDepth);
