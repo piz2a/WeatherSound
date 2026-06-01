@@ -165,7 +165,7 @@ WeatherSoundAudioProcessorEditor::WeatherSoundAudioProcessorEditor(WeatherSoundA
 #endif
 
     // This is where our plugin’s editor size is set.
-    setSize(640, 480);
+    setSize(640, 720);
 }
 
 // DECONSTRUCTOR
