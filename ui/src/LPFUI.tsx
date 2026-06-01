@@ -211,6 +211,10 @@ function BypassButton({ paramId }: BypassButtonProps) {
 
 
 export default function LPFUI() {
+  const testRef = useRef<((val: number) => void) | null>(null);
+
+  
+
   return (
     <div className="w-[640px] h-[480px] bg-black bg-[radial-gradient(circle_at_center,_#111_0%,_#000_100%)] flex flex-col items-center justify-between p-6 overflow-hidden font-sans border border-slate-800 select-none">
       <div className="w-full flex justify-between items-center border-b border-cyan-900/30 pb-2">
@@ -224,15 +228,16 @@ export default function LPFUI() {
       <div className="flex gap-6 items-center flex-1 flex-wrap">
         <Knob
           label="Cloud Coverage"
-          paramId="cloudCoverage"
+          paramId="cloudCoverageMix"
           min={0}
           max={100}
           unit="Hz"
+          setValueRef={testRef}
         />
 
         <Knob
           label="Humidity"
-          paramId="humidity"
+          paramId="humidityMix"
           min={0}
           max={100}
           unit="%"
@@ -240,7 +245,7 @@ export default function LPFUI() {
 
         <Knob
           label="Temperature"
-          paramId="temperature"
+          paramId="temperatureMix"
           min={-20}
           max={40}
           unit="°C"
@@ -249,7 +254,7 @@ export default function LPFUI() {
 
         <Knob
           label="UV Index"
-          paramId="uvIndex"
+          paramId="uvIndexMix"
           min={0.0}
           max={11.0}
           unit="dB"
@@ -258,7 +263,7 @@ export default function LPFUI() {
 
         <Knob
           label="Wind Speed"
-          paramId="windSpeed"
+          paramId="windSpeedMix"
           min={0}
           max={30}
           unit="m/s"
@@ -267,7 +272,7 @@ export default function LPFUI() {
 
         <Knob
           label="Wind Direction"
-          paramId="windDirection"
+          paramId="windDirectionMix"
           min={0}
           max={360}
           unit="°"
@@ -275,7 +280,7 @@ export default function LPFUI() {
 
         <Knob
           label="Visibility"
-          paramId="visibility"
+          paramId="visibilityMix"
           min={0}
           max={10}
           unit="km"
