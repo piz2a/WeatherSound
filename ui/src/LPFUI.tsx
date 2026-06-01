@@ -216,7 +216,7 @@ const KnobWrapper = ({ setValueRef, label, paramId, min, max, unit, isLog, decim
         paramId={paramId + "Mix"}
         min={0}
         max={100}
-        unit={unit}
+        unit={'%'}
         isLog={isLog}
         decimalPlaces={decimalPlaces}
         initialValue={initialValue}
@@ -343,9 +343,9 @@ export default function LPFUI() {
         <KnobWrapper
           label="Temperature"
           paramId="temperature"
-          min={0}
-          max={100}
-          unit="%"
+          min={-40}
+          max={50}
+          unit="°C"
           setValueRef={temperatureRef}
         />
 
