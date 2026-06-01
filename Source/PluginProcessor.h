@@ -60,6 +60,7 @@ private:
     LinearSmoothedValue<float> smoothedQ;
     AudioProcessorValueTreeState state;
     AudioProcessorValueTreeState::ParameterLayout createParameters();
+    FmPreset getPreset(float temperature);
     std::atomic<float>* cloudCoverageParam;
     std::atomic<float>* humidityParam;
     std::atomic<float>* temperatureParam;
