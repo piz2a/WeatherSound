@@ -239,8 +239,10 @@ function CoordinateInput({ paramId, setState }: BypassButtonProps & {setState: D
       type="button"
       variant='outline'
       size="sm"
-      onClick={() => {handleChoiceChange((choiceIndex + 1) % choices.length)
-        setState(choiceIndex)
+      onClick={() => {
+        const nextIndex = choices.length > 0 ? (choiceIndex + 1) % choices.length : 0;
+        handleChoiceChange(nextIndex);
+        setState(nextIndex);
       }}
       className={`h-8 w-24 px-3 text-[10px] font-black tracking-[0.2em] uppercase transition-all
           border-slate-700 bg-slate-900 text-white hover:bg-slate-800`}
@@ -308,7 +310,7 @@ export default function LPFUI() {
       }
     }, 10000);
     return () => clearInterval(interval);
-  }, [])
+  }, [locationIndex])
   return (
     <div className="w-[640px] h-[720px] bg-black bg-[radial-gradient(circle_at_center,_#111_0%,_#000_100%)] flex flex-col items-center justify-between p-6 overflow-hidden font-sans border border-slate-800 select-none">
       <div className="w-full flex justify-between items-center border-b border-cyan-900/30 pb-2">
@@ -316,7 +318,7 @@ export default function LPFUI() {
           WeatherSound
         </h1>
         <BypassButton paramId="bypass" />
-        <CoordinateInput setState={setLocation} paramId="location" />
+        {/* <CoordinateInput setState={setLocation} paramId="location" /> */}
       </div>
 
       {/* Control Section */}
