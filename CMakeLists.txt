@@ -29,6 +29,8 @@ target_sources(WeatherSound PRIVATE
     Source/dsp/FMSynth.cpp
     Source/dsp/FMSynth.h
     Source/dsp/dspUtils.h
+    Source/dsp/Synthesizer.cpp
+    Source/dsp/Synthesizer.h
 
 )
 
