@@ -103,6 +103,8 @@ void WeatherSoundAudioProcessor::prepareToPlay (double sampleRate, int samplesPe
     }
 
     fmSynth.setCurrentPlaybackSampleRate(sampleRate);
+  freqParam = state.getRawParameterValue("freqHz");
+  resonanceParam = state.getRawParameterValue("resonance");
     cloudCoverageParam = state.getRawParameterValue("cloudCoverage");
     humidityParam = state.getRawParameterValue("humidity");
     temperatureParam = state.getRawParameterValue("temperature");
@@ -112,7 +114,7 @@ void WeatherSoundAudioProcessor::prepareToPlay (double sampleRate, int samplesPe
     visibilityParam = state.getRawParameterValue("visibility");
     bypassParam = state.getRawParameterValue("bypass");
     smoothedFreq.reset(sampleRate, 0.05); // 50ms 동안 부드럽게 변화
-    smoothedFreq.setCurrentAndTargetValue(cloudCoverageParam->load());
+    smoothedFreq.setCurrentAndTargetValue(freqParam->load());
 }
 
 void WeatherSoundAudioProcessor::releaseResources()
@@ -272,6 +274,10 @@ AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 AudioProcessorValueTreeState::ParameterLayout WeatherSoundAudioProcessor::createParameters()
 {
     return {
+    std::make_unique<AudioParameterFloat>(ParameterID{"freqHz", 1},
+                                            "Frequency", 20.0f, 22050.0f, 1500.0f),
+     std::make_unique<AudioParameterFloat>(ParameterID{"resonance", 1},
+                                            "Resonance", 0.0f, 10.0f, 0.0f),
         std::make_unique<AudioParameterFloat> (  // why use make_unique? because the createParameters function needs to return a ParameterLayout object, which is a vector of unique pointers to RangedAudioParameter objects. By using make_unique, we can create a new AudioParameterFloat object and automatically wrap it in a unique pointer, which is then added to the ParameterLayout vector.
             ParameterID { "cloudCoverage", 1 },
             "Cloud Coverage",
