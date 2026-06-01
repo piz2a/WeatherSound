@@ -1,6 +1,6 @@
 // TODO: Find out the reason why the log-knob's value get corrupted when we single click it
 
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useEffect } from 'react';
 import { useJuceKnob, useJuceToggle } from './hooks/juce-hooks';
 import { logToLinear } from './utils/scale-transformation';
 import { Button } from './components/ui/button';
@@ -15,9 +15,10 @@ interface KnobProps {
   unit: string;
   isLog?: boolean;
   decimalPlaces?: number;
+  setValueRef?: React.Ref<((val: number) => void) | null>;
 }
 
-const Knob = ({ label, paramId, min, max, unit, isLog, decimalPlaces = 0, initialValue = 0 }: KnobProps) => {
+const Knob = ({ setValueRef, label, paramId, min, max, unit, isLog, decimalPlaces = 0, initialValue = 0 }: KnobProps) => {
   const knobRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const valueRef = useRef<HTMLSpanElement>(null);
@@ -30,7 +31,21 @@ const Knob = ({ label, paramId, min, max, unit, isLog, decimalPlaces = 0, initia
     setIsEditing,
     handleManualInput,
     onMouseDown: originalOnMouseDown,
+    setValue,
   } = useJuceKnob(paramId, min, max, isLog, decimalPlaces, initialValue);
+
+  // Handle ref assignment for external setValue access
+  useEffect(() => {
+    if (!setValueRef) return;
+
+    if (typeof setValueRef === 'function') {
+      // Callback ref
+      setValueRef(setValue);
+    } else if (setValueRef && 'current' in setValueRef) {
+      // Object ref (e.g., useRef)
+      (setValueRef as React.MutableRefObject<((val: number) => void) | null>).current = setValue;
+    }
+  }, [setValueRef, setValue]);
 
   // 시각적 표현을 위한 퍼센트 계산
   const percent = isLog ? logToLinear(value, min, max) : (value - min) / (max - min);
@@ -197,7 +212,7 @@ function BypassButton({ paramId }: BypassButtonProps) {
 
 export default function LPFUI() {
   return (
-    <div className="w-[480px] h-[320px] bg-black bg-[radial-gradient(circle_at_center,_#111_0%,_#000_100%)] flex flex-col items-center justify-between p-6 overflow-hidden font-sans border border-slate-800 select-none">
+    <div className="w-[640px] h-[480px] bg-black bg-[radial-gradient(circle_at_center,_#111_0%,_#000_100%)] flex flex-col items-center justify-between p-6 overflow-hidden font-sans border border-slate-800 select-none">
       <div className="w-full flex justify-between items-center border-b border-cyan-900/30 pb-2">
         <h1 className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 drop-shadow-[0_0_10px_rgba(34,211,238,0.4)]">
           WeatherSound
@@ -206,15 +221,32 @@ export default function LPFUI() {
       </div>
 
       {/* Control Section */}
-      <div className="flex gap-16 items-center flex-1">
+      <div className="flex gap-6 items-center flex-1 flex-wrap">
         <Knob
           label="Cloud Coverage"
           paramId="cloudCoverage"
           min={0}
           max={100}
           unit="Hz"
-          isLog={true}
         />
+
+        <Knob
+          label="Humidity"
+          paramId="humidity"
+          min={0}
+          max={100}
+          unit="%"
+        />
+
+        <Knob
+          label="Temperature"
+          paramId="temperature"
+          min={-20}
+          max={40}
+          unit="°C"
+          decimalPlaces={1}
+        />
+
         <Knob
           label="UV Index"
           paramId="uvIndex"
@@ -223,12 +255,38 @@ export default function LPFUI() {
           unit="dB"
           decimalPlaces={1}
         />
+
+        <Knob
+          label="Wind Speed"
+          paramId="windSpeed"
+          min={0}
+          max={30}
+          unit="m/s"
+          decimalPlaces={1}
+        />
+
+        <Knob
+          label="Wind Direction"
+          paramId="windDirection"
+          min={0}
+          max={360}
+          unit="°"
+        />
+
+        <Knob
+          label="Visibility"
+          paramId="visibility"
+          min={0}
+          max={10}
+          unit="km"
+          decimalPlaces={1}
+        />
       </div>
 
       {/* Footer Decoration */}
       <div className="w-full flex justify-between text-[8px] font-mono text-slate-600 tracking-[0.3em] uppercase">
-        <span>2026 Jihoaudio</span>
-        <span>ahnjiho.com</span>
+        <span>2026 ADC Japan 26</span>
+        <span>THE VOLUNTEER TEAM</span>
       </div>
     </div>
   );
