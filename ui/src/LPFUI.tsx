@@ -248,9 +248,37 @@ function BypassButton({ paramId }: BypassButtonProps) {
 
 
 export default function LPFUI() {
+  const cloudCoverageRef:  React.Ref<((val: number) => void) | null> = useRef(null)
+  const humidityRef:  React.Ref<((val: number) => void) | null> = useRef(null)
+  const temperatureRef:  React.Ref<((val: number) => void) | null> = useRef(null)
+  const uvIndexRef:  React.Ref<((val: number) => void) | null> = useRef(null)
+  const windSpeedRef:  React.Ref<((val: number) => void) | null> = useRef(null)
+  const windDirectionRef:  React.Ref<((val: number) => void) | null> = useRef(null)
+  const visibilityRef:  React.Ref<((val: number) => void) | null> = useRef(null)
   useEffect(() => {
     const interval = setInterval(async () => {
-      console.log(await pull(30, 30));
+      const data = await pull(30, 30);
+      if (cloudCoverageRef.current !== null) {
+        cloudCoverageRef.current(data.cloudCoverage)
+      }
+      if (humidityRef.current !== null) {
+        humidityRef.current(data.humidity)
+      }
+      if (temperatureRef.current !== null) {
+        temperatureRef.current(data.temperature)
+      }
+      if (uvIndexRef.current !== null) {
+        uvIndexRef.current(data.uvIndex)
+      }
+      if (windSpeedRef.current !== null) {
+        windSpeedRef.current(data.windSpeed)
+      }
+      if (windDirectionRef.current !== null) {
+        windDirectionRef.current(data.windDirection)
+      }
+      if (visibilityRef.current !== null) {
+        visibilityRef.current(data.visibility)
+      }
     }, 1000);
     return () => clearInterval(interval);
   }, [])
@@ -271,6 +299,7 @@ export default function LPFUI() {
           min={0}
           max={100}
           unit="%"
+          setValueRef={cloudCoverageRef}
         />
 
         <KnobWrapper
@@ -279,6 +308,7 @@ export default function LPFUI() {
           min={0}
           max={100}
           unit="%"
+          setValueRef={humidityRef}
         />
 
         <KnobWrapper
@@ -287,14 +317,16 @@ export default function LPFUI() {
           min={0}
           max={100}
           unit="%"
+          setValueRef={temperatureRef}
         />
 
         <KnobWrapper
           label="UV Index"
           paramId="uvIndex"
           min={0}
-          max={100}
-          unit="%"
+          max={11}
+          unit=""
+          setValueRef={uvIndexRef}
         />
 
         <KnobWrapper
@@ -303,22 +335,25 @@ export default function LPFUI() {
           min={0}
           max={100}
           unit="%"
+          setValueRef={windSpeedRef}
         />
 
         <KnobWrapper
           label="Wind Direction"
           paramId="windDirection"
           min={0}
-          max={100}
-          unit="%"
+          max={360}
+          unit="°"
+          setValueRef={windDirectionRef}
         />
 
         <KnobWrapper
           label="Visibility"
           paramId="visibility"
           min={0}
-          max={100}
-          unit="%"
+          max={296000}
+          unit="m"
+          setValueRef={visibilityRef}
         />
       </div>
 
