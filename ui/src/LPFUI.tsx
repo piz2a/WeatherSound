@@ -1,7 +1,7 @@
 // TODO: Find out the reason why the log-knob's value get corrupted when we single click it
 
 import { useLayoutEffect, useRef, useEffect } from 'react';
-import { useJuceKnob, useJuceToggle } from './hooks/juce-hooks';
+import { useJuceSlider, useJuceKnob, useJuceToggle } from './hooks/juce-hooks';
 import { logToLinear } from './utils/scale-transformation';
 import { Button } from './components/ui/button';
 import useOnClickOutside from './hooks/useOnClickOutside';
@@ -18,6 +18,22 @@ interface KnobProps {
   decimalPlaces?: number;
   setValueRef?: React.Ref<((val: number) => void) | null>;
 }
+
+const ReadOnlySlider = ({ min, max, setValueRef, paramId }: { min: number; max: number; setValueRef?: React.Ref<((val: number) => void) | null>; paramId: string }) => {
+  const { value, setValue } = useJuceSlider(paramId, min, max, false, 0, 0);
+  if (setValueRef) {
+    (setValueRef as React.MutableRefObject<((val: number) => void) | null>).current = setValue;
+  }
+
+  return (
+    <div className="w-full">
+      <div className="w-full h-4 bg-slate-800 rounded-full overflow-hidden">
+        <div className="h-full bg-cyan-400" style={{ width: `${((value - min) / (max - min)) * 100}%` }} />
+      </div>
+      <span className="text-xs font-mono text-slate-500 mt-1">{value.toFixed(0)}%</span>
+    </div>
+  );
+};
 
 const Knob = ({ setValueRef, label, paramId, min, max, unit, isLog, decimalPlaces = 0, initialValue = 0 }: KnobProps) => {
   const knobRef = useRef<HTMLDivElement>(null);
@@ -186,6 +202,26 @@ const Knob = ({ setValueRef, label, paramId, min, max, unit, isLog, decimalPlace
   );
 };
 
+const KnobWrapper = ({ setValueRef, label, paramId, min, max, unit, isLog, decimalPlaces = 0, initialValue = 0 }: KnobProps) => {
+  return (
+    <div className="flex gap-6 items-center flex-1 flex-wrap">
+      <ReadOnlySlider setValueRef={setValueRef} 
+        min={min}
+        max={max} paramId={paramId} />
+      <Knob
+        label={label}
+        paramId={paramId + "Mix"}
+        min={0}
+        max={100}
+        unit={unit}
+        isLog={isLog}
+        decimalPlaces={decimalPlaces}
+        initialValue={initialValue}
+      />
+    </div>
+  );
+};
+
 interface BypassButtonProps {
   paramId: string;
 }
@@ -212,9 +248,37 @@ function BypassButton({ paramId }: BypassButtonProps) {
 
 
 export default function LPFUI() {
+  const cloudCoverageRef:  React.Ref<((val: number) => void) | null> = useRef(null)
+  const humidityRef:  React.Ref<((val: number) => void) | null> = useRef(null)
+  const temperatureRef:  React.Ref<((val: number) => void) | null> = useRef(null)
+  const uvIndexRef:  React.Ref<((val: number) => void) | null> = useRef(null)
+  const windSpeedRef:  React.Ref<((val: number) => void) | null> = useRef(null)
+  const windDirectionRef:  React.Ref<((val: number) => void) | null> = useRef(null)
+  const visibilityRef:  React.Ref<((val: number) => void) | null> = useRef(null)
   useEffect(() => {
     const interval = setInterval(async () => {
-      console.log(await pull(30, 30));
+      const data = await pull(30, 30);
+      if (cloudCoverageRef.current !== null) {
+        cloudCoverageRef.current(data.cloudCoverage)
+      }
+      if (humidityRef.current !== null) {
+        humidityRef.current(data.humidity)
+      }
+      if (temperatureRef.current !== null) {
+        temperatureRef.current(data.temperature)
+      }
+      if (uvIndexRef.current !== null) {
+        uvIndexRef.current(data.uvIndex)
+      }
+      if (windSpeedRef.current !== null) {
+        windSpeedRef.current(data.windSpeed)
+      }
+      if (windDirectionRef.current !== null) {
+        windDirectionRef.current(data.windDirection)
+      }
+      if (visibilityRef.current !== null) {
+        visibilityRef.current(data.visibility)
+      }
     }, 1000);
     return () => clearInterval(interval);
   }, [])
@@ -229,60 +293,67 @@ export default function LPFUI() {
 
       {/* Control Section */}
       <div className="flex gap-6 items-center flex-1 flex-wrap">
-        <Knob
+        <KnobWrapper
           label="Cloud Coverage"
-          paramId="cloudCoverageMix"
+          paramId="cloudCoverage"
           min={0}
           max={100}
           unit="%"
+          setValueRef={cloudCoverageRef}
         />
 
-        <Knob
+        <KnobWrapper
           label="Humidity"
-          paramId="humidityMix"
+          paramId="humidity"
           min={0}
           max={100}
           unit="%"
+          setValueRef={humidityRef}
         />
 
-        <Knob
+        <KnobWrapper
           label="Temperature"
-          paramId="temperatureMix"
+          paramId="temperature"
           min={0}
           max={100}
           unit="%"
+          setValueRef={temperatureRef}
         />
 
-        <Knob
+        <KnobWrapper
           label="UV Index"
-          paramId="uvIndexMix"
+          paramId="uvIndex"
           min={0}
-          max={100}
-          unit="%"
+          max={11}
+          unit=""
+          setValueRef={uvIndexRef}
         />
 
-        <Knob
+        <KnobWrapper
           label="Wind Speed"
-          paramId="windSpeedMix"
+          paramId="windSpeed"
           min={0}
           max={100}
           unit="%"
+          setValueRef={windSpeedRef}
         />
 
-        <Knob
+        <KnobWrapper
           label="Wind Direction"
-          paramId="windDirectionMix"
+          paramId="windDirection"
           min={0}
-          max={100}
-          unit="%"
+          max={360}
+          unit="°"
+          setValueRef={windDirectionRef}
         />
 
-        <Knob
+        <KnobWrapper
           label="Visibility"
-          paramId="visibilityMix"
+          paramId="visibility"
           min={0}
-          max={100}
-          unit="%"
+          max={296000}
+          unit="m"
+          setValueRef={visibilityRef}
         />
       </div>
 
