@@ -259,6 +259,8 @@ export default function LPFUI() {
   const windDirectionRef:  React.Ref<((val: number) => void) | null> = useRef(null)
   const visibilityRef:  React.Ref<((val: number) => void) | null> = useRef(null)
   useEffect(() => {
+    const pollIntervalMs = 60_000;
+
     const interval = setInterval(async () => {
       const data = await pull(30, 30);
       if (cloudCoverageRef.current !== null) {
@@ -282,7 +284,8 @@ export default function LPFUI() {
       if (visibilityRef.current !== null) {
         visibilityRef.current(data.visibility)
       }
-    }, 1000);
+      console.log('Updated weather data:', data);
+    }, pollIntervalMs);
     return () => clearInterval(interval);
   }, [])
   return (
