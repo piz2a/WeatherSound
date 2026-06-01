@@ -3,6 +3,9 @@
 
 void FmOperator::prepareToPlay(double sampleRate)
 {
+    if (sampleRate <= 0.0)
+        return;
+
     currentSampleRate = sampleRate;
     
     envelope.setSampleRate(sampleRate);

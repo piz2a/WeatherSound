@@ -28,6 +28,14 @@ private:
     Slider frequencySlider;
     TextButton bypassButton;
     Label frequencyLabel {"FrequencyLabel", "Frequency"};
+    WebSliderRelay freqRelay { "freqHz" };
+    WebSliderParameterAttachment freqAttachment {
+        *audioProcessor.getState().getParameter("freqHz"), freqRelay, nullptr
+    };
+    WebSliderRelay resonanceRelay { "resonance" };
+    WebSliderParameterAttachment resonanceAttachment {
+        *audioProcessor.getState().getParameter("resonance"), resonanceRelay, nullptr
+    };
     WebSliderRelay cloudCoverageRelay { "cloudCoverage" };
     WebSliderParameterAttachment cloudCoverageAttachment {
         *audioProcessor.getState().getParameter("cloudCoverage"), cloudCoverageRelay, nullptr
