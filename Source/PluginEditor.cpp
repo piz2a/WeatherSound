@@ -130,6 +130,9 @@ WeatherSoundAudioProcessorEditor::WeatherSoundAudioProcessorEditor(WeatherSoundA
                        .withResourceProvider([this](const auto &url)
                                              { return getResource(url); })
                        // .withInitialisationData("vendor", JUCE_COMPANY_NAME),
+                       .withOptionsFrom(freqRelay)
+                       .withOptionsFrom(resonanceRelay)
+
                        .withOptionsFrom(cloudCoverageRelay)
                        .withOptionsFrom(humidityRelay)
                        .withOptionsFrom(temperatureRelay)
@@ -145,7 +148,7 @@ WeatherSoundAudioProcessorEditor::WeatherSoundAudioProcessorEditor(WeatherSoundA
                        .withOptionsFrom(windSpeedMixRelay)
                        .withOptionsFrom(windDirectionMixRelay)
                        .withOptionsFrom(visibilityMixRelay)
-                       
+
                        .withOptionsFrom(bypassRelay)
                        .withNativeIntegrationEnabled() // Necessary
       )
@@ -162,7 +165,7 @@ WeatherSoundAudioProcessorEditor::WeatherSoundAudioProcessorEditor(WeatherSoundA
 #endif
 
     // This is where our plugin’s editor size is set.
-    setSize(640, 480);
+    setSize(640, 720);
 }
 
 // DECONSTRUCTOR
