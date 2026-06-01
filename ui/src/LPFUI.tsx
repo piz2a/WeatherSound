@@ -5,6 +5,7 @@ import { useJuceKnob, useJuceToggle } from './hooks/juce-hooks';
 import { logToLinear } from './utils/scale-transformation';
 import { Button } from './components/ui/button';
 import useOnClickOutside from './hooks/useOnClickOutside';
+import { pull } from './WeatherAPI';
 
 interface KnobProps {
   label: string;
@@ -211,6 +212,12 @@ function BypassButton({ paramId }: BypassButtonProps) {
 
 
 export default function LPFUI() {
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      console.log(await pull(30, 30));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [])
   return (
     <div className="w-[640px] h-[480px] bg-black bg-[radial-gradient(circle_at_center,_#111_0%,_#000_100%)] flex flex-col items-center justify-between p-6 overflow-hidden font-sans border border-slate-800 select-none">
       <div className="w-full flex justify-between items-center border-b border-cyan-900/30 pb-2">
@@ -224,15 +231,15 @@ export default function LPFUI() {
       <div className="flex gap-6 items-center flex-1 flex-wrap">
         <Knob
           label="Cloud Coverage"
-          paramId="cloudCoverage"
+          paramId="cloudCoverageMix"
           min={0}
           max={100}
-          unit="Hz"
+          unit="%"
         />
 
         <Knob
           label="Humidity"
-          paramId="humidity"
+          paramId="humidityMix"
           min={0}
           max={100}
           unit="%"
@@ -240,46 +247,42 @@ export default function LPFUI() {
 
         <Knob
           label="Temperature"
-          paramId="temperature"
-          min={-20}
-          max={40}
-          unit="°C"
-          decimalPlaces={1}
+          paramId="temperatureMix"
+          min={0}
+          max={100}
+          unit="%"
         />
 
         <Knob
           label="UV Index"
-          paramId="uvIndex"
-          min={0.0}
-          max={11.0}
-          unit="dB"
-          decimalPlaces={1}
+          paramId="uvIndexMix"
+          min={0}
+          max={100}
+          unit="%"
         />
 
         <Knob
           label="Wind Speed"
-          paramId="windSpeed"
+          paramId="windSpeedMix"
           min={0}
-          max={30}
-          unit="m/s"
-          decimalPlaces={1}
+          max={100}
+          unit="%"
         />
 
         <Knob
           label="Wind Direction"
-          paramId="windDirection"
+          paramId="windDirectionMix"
           min={0}
-          max={360}
-          unit="°"
+          max={100}
+          unit="%"
         />
 
         <Knob
           label="Visibility"
-          paramId="visibility"
+          paramId="visibilityMix"
           min={0}
-          max={10}
-          unit="km"
-          decimalPlaces={1}
+          max={100}
+          unit="%"
         />
       </div>
 
