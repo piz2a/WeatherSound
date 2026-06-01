@@ -1,15 +1,6 @@
 #pragma once
 #include <juce_audio_basics/juce_audio_basics.h>
 
-enum class FmPreset 
-{
-    ClassicWurly,
-    LatelyBass,
-    Pluck,
-    BrassSwell,
-    AmbientBell
-};
-
 class FmOperator 
 {
 public:

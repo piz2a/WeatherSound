@@ -2,7 +2,9 @@
 
 #include <juce_audio_basics/juce_audio_basics.h>
 #include <juce_audio_processors/juce_audio_processors.h>
+#include <juce_audio_basics/synthesisers/juce_Synthesiser.h>
 #include "SimpleFilterChannel.h"
+#include "dsp/Synthesizer.h"
 
 using namespace juce;
 
@@ -52,6 +54,8 @@ public:
     AudioProcessorValueTreeState& getState() { return state; }
 
 private:
+
+    juce::Synthesiser fmSynth;
     std::vector<SimpleFilterChannel> filters;
     LinearSmoothedValue<float> smoothedFreq;
     LinearSmoothedValue<float> smoothedQ;
