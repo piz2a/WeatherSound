@@ -123,8 +123,6 @@ namespace
 // CONSTRUCTOR
 WeatherSoundAudioProcessorEditor::WeatherSoundAudioProcessorEditor(WeatherSoundAudioProcessor &p)
     : AudioProcessorEditor(&p), audioProcessor(p),
-      freqSliderAttachment(audioProcessor.getState(), "freqHz", frequencySlider),
-      bypassButtonAttachment(audioProcessor.getState(), "bypass", bypassButton),
       webComponent(WebBrowserComponent::Options{}
                        .withBackend(WebBrowserComponent::Options::Backend::webview2)
                        .withWinWebView2Options(WebBrowserComponent::Options::WinWebView2{}
@@ -132,8 +130,13 @@ WeatherSoundAudioProcessorEditor::WeatherSoundAudioProcessorEditor(WeatherSoundA
                        .withResourceProvider([this](const auto &url)
                                              { return getResource(url); })
                        // .withInitialisationData("vendor", JUCE_COMPANY_NAME),
-                       .withOptionsFrom(freqRelay)
-                       .withOptionsFrom(resonanceRelay)
+                       .withOptionsFrom(cloudCoverageRelay)
+                       .withOptionsFrom(humidityRelay)
+                       .withOptionsFrom(temperatureRelay)
+                       .withOptionsFrom(uvIndexRelay)
+                       .withOptionsFrom(windSpeedRelay)
+                       .withOptionsFrom(windDirectionRelay)
+                       .withOptionsFrom(visibilityRelay)
                        .withOptionsFrom(bypassRelay)
                        .withNativeIntegrationEnabled() // Necessary
       )
@@ -151,29 +154,6 @@ WeatherSoundAudioProcessorEditor::WeatherSoundAudioProcessorEditor(WeatherSoundA
 
     // This is where our plugin’s editor size is set.
     setSize(480, 320);
-
-    /*
-    frequencySlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
-    frequencySlider.setTextBoxStyle(Slider::TextBoxBelow, true, 100, 50);
-    // frequencySlider.setRange(0.0f, 1.0f, 0.01f);
-    addAndMakeVisible(frequencySlider);
-
-    bypassButton.setButtonText("Bypass");
-    bypassButton.setToggleState(false, NotificationType::dontSendNotification);
-    bypassButton.setClickingTogglesState(true);
-    bypassButton.setColour(TextButton::ColourIds::buttonOnColourId, Colours::green);
-    bypassButton.setColour(TextButton::ColourIds::buttonColourId, Colours::red);
-    bypassButton.onClick = [this]()
-    {
-        // change the state of the button when it's clicked
-        const bool isBypassed = bypassButton.getToggleState();
-        bypassButton.setButtonText(isBypassed ? "Bypassed" : "Active");
-    };
-    addAndMakeVisible(bypassButton);
-
-    frequencyLabel.setColour (Label::ColourIds::outlineColourId, Colours::white);
-    addAndMakeVisible(frequencyLabel);
-    */
 }
 
 // DECONSTRUCTOR

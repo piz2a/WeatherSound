@@ -200,7 +200,7 @@ export default function LPFUI() {
     <div className="w-[480px] h-[320px] bg-black bg-[radial-gradient(circle_at_center,_#111_0%,_#000_100%)] flex flex-col items-center justify-between p-6 overflow-hidden font-sans border border-slate-800 select-none">
       <div className="w-full flex justify-between items-center border-b border-cyan-900/30 pb-2">
         <h1 className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 drop-shadow-[0_0_10px_rgba(34,211,238,0.4)]">
-          SimpleBiquadLPF
+          WeatherSound
         </h1>
         <BypassButton paramId="bypass" />
       </div>
@@ -208,18 +208,18 @@ export default function LPFUI() {
       {/* Control Section */}
       <div className="flex gap-16 items-center flex-1">
         <Knob
-          label="Cutoff"
-          paramId="freqHz"
-          min={20}
-          max={22050}
+          label="Cloud Coverage"
+          paramId="cloudCoverage"
+          min={0}
+          max={100}
           unit="Hz"
           isLog={true}
         />
         <Knob
-          label="Resonance"
-          paramId="resonance"
+          label="UV Index"
+          paramId="uvIndex"
           min={0.0}
-          max={12.0}
+          max={11.0}
           unit="dB"
           decimalPlaces={1}
         />

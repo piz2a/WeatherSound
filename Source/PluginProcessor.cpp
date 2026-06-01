@@ -95,11 +95,16 @@ void WeatherSoundAudioProcessor::prepareToPlay (double sampleRate, int samplesPe
         filter.setCoefficients();  // mandatory
     }
 
-    frequencyParam = state.getRawParameterValue("freqHz");
-    resonanceParam = state.getRawParameterValue("resonance");
+    cloudCoverageParam = state.getRawParameterValue("cloudCoverage");
+    humidityParam = state.getRawParameterValue("humidity");
+    temperatureParam = state.getRawParameterValue("temperature");
+    uvIndexParam = state.getRawParameterValue("uvIndex");
+    windSpeedParam = state.getRawParameterValue("windSpeed");
+    windDirectionParam = state.getRawParameterValue("windDirection");
+    visibilityParam = state.getRawParameterValue("visibility");
     bypassParam = state.getRawParameterValue("bypass");
     smoothedFreq.reset(sampleRate, 0.05); // 50ms 동안 부드럽게 변화
-    smoothedFreq.setCurrentAndTargetValue(frequencyParam->load());
+    smoothedFreq.setCurrentAndTargetValue(cloudCoverageParam->load());
 }
 
 void WeatherSoundAudioProcessor::releaseResources()
@@ -152,12 +157,12 @@ void WeatherSoundAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiB
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    const float freq = frequencyParam->load();
+    const float freq = cloudCoverageParam->load();
     smoothedFreq.setTargetValue(freq);
     float currentFreq = smoothedFreq.getNextValue();
     smoothedFreq.skip(numSamples - 1);
 
-    const float res = resonanceParam->load();
+    const float res = uvIndexParam->load();
     const float q = 0.707f * Decibels::decibelsToGain (res);  // Convert dB to linear gain. 0 dB = 0.707
     smoothedQ.setTargetValue(q);
     float currentQ = smoothedQ.getNextValue();
@@ -238,18 +243,53 @@ AudioProcessorValueTreeState::ParameterLayout WeatherSoundAudioProcessor::create
 {
     return {
         std::make_unique<AudioParameterFloat> (  // why use make_unique? because the createParameters function needs to return a ParameterLayout object, which is a vector of unique pointers to RangedAudioParameter objects. By using make_unique, we can create a new AudioParameterFloat object and automatically wrap it in a unique pointer, which is then added to the ParameterLayout vector.
-            ParameterID { "freqHz", 1 },
-            "Frequency",
-            20.0f,
-            22050.0f,
-            220.0f
+            ParameterID { "cloudCoverage", 1 },
+            "Cloud Coverage",
+            0.0f,
+            100.0f,
+            50.0f
         ),
         std::make_unique<AudioParameterFloat> (
-            ParameterID { "resonance", 1 },
-            "Resonance",
+            ParameterID { "humidity", 1 },
+            "Humidity",
             0.0f,
-            12.0f,
-            0.0f
+            100.0f,
+            50.0f
+        ),
+        std::make_unique<AudioParameterFloat> (
+            ParameterID { "temperature", 1 },
+            "Temperature",
+            -20.0f,
+            40.0f,
+            20.0f
+        ),
+        std::make_unique<AudioParameterFloat> (
+            ParameterID { "uvIndex", 1 },
+            "UV Index",
+            0.0f,
+            11.0f,
+            5.0f
+        ),
+        std::make_unique<AudioParameterFloat> (
+            ParameterID { "windSpeed", 1 },
+            "Wind Speed",
+            0.0f,
+            30.0f,
+            15.0f
+        ),
+        std::make_unique<AudioParameterFloat> (
+            ParameterID { "windDirection", 1 },
+            "Wind Direction",
+            0.0f,
+            360.0f,
+            180.0f
+        ),
+        std::make_unique<AudioParameterFloat> (
+            ParameterID { "visibility", 1 },
+            "Visibility",
+            0.0f,
+            10.0f,
+            5.0f
         ),
         std::make_unique<AudioParameterBool> (
             ParameterID { "bypass", 1 },

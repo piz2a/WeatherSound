@@ -28,15 +28,33 @@ private:
     Slider frequencySlider;
     TextButton bypassButton;
     Label frequencyLabel {"FrequencyLabel", "Frequency"};
-    AudioProcessorValueTreeState::SliderAttachment freqSliderAttachment;
-    AudioProcessorValueTreeState::ButtonAttachment bypassButtonAttachment;
-    WebSliderRelay freqRelay { "freqHz" };
+    WebSliderRelay cloudCoverageRelay { "cloudCoverage" };
     WebSliderParameterAttachment freqAttachment {
-        *audioProcessor.getState().getParameter("freqHz"), freqRelay, nullptr
+        *audioProcessor.getState().getParameter("cloudCoverage"), cloudCoverageRelay, nullptr
     };
-    WebSliderRelay resonanceRelay { "resonance" };
-    WebSliderParameterAttachment resonanceAttachment {
-        *audioProcessor.getState().getParameter("resonance"), resonanceRelay, nullptr
+    WebSliderRelay humidityRelay { "humidity" };
+    WebSliderParameterAttachment humidityAttachment {
+        *audioProcessor.getState().getParameter("humidity"), humidityRelay, nullptr
+    };
+    WebSliderRelay temperatureRelay { "temperature" };
+    WebSliderParameterAttachment temperatureAttachment {
+        *audioProcessor.getState().getParameter("temperature"), temperatureRelay, nullptr
+    };
+    WebSliderRelay uvIndexRelay { "uvIndex" };
+    WebSliderParameterAttachment uvIndexAttachment {
+        *audioProcessor.getState().getParameter("uvIndex"), uvIndexRelay, nullptr
+    };
+    WebSliderRelay windSpeedRelay { "windSpeed" };
+    WebSliderParameterAttachment windSpeedAttachment {
+        *audioProcessor.getState().getParameter("windSpeed"), windSpeedRelay, nullptr
+    };
+    WebSliderRelay windDirectionRelay { "windDirection" };
+    WebSliderParameterAttachment windDirectionAttachment {
+        *audioProcessor.getState().getParameter("windDirection"), windDirectionRelay, nullptr
+    };
+    WebSliderRelay visibilityRelay { "visibility" };
+    WebSliderParameterAttachment visibilityAttachment {
+        *audioProcessor.getState().getParameter("visibility"), visibilityRelay, nullptr
     };
     WebToggleButtonRelay bypassRelay { "bypass" };
     WebToggleButtonParameterAttachment bypassAttachment {

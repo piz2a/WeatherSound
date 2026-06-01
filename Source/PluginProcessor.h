@@ -57,8 +57,13 @@ private:
     LinearSmoothedValue<float> smoothedQ;
     AudioProcessorValueTreeState state;
     AudioProcessorValueTreeState::ParameterLayout createParameters();
-    std::atomic<float>* frequencyParam;
-    std::atomic<float>* resonanceParam;
+    std::atomic<float>* cloudCoverageParam;
+    std::atomic<float>* humidityParam;
+    std::atomic<float>* temperatureParam;
+    std::atomic<float>* uvIndexParam;
+    std::atomic<float>* windSpeedParam;
+    std::atomic<float>* windDirectionParam;
+    std::atomic<float>* visibilityParam;
     std::atomic<float>* bypassParam;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WeatherSoundAudioProcessor)
