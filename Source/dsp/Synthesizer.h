@@ -42,8 +42,7 @@ public:
         }
     }
 
-    void renderNextBlock (juce::AudioBuffer<float>& outputBuffer, 
-                          int startSample, int numSamples) override
+    void renderNextBlock (juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override;
 
     void pitchWheelMoved (int newPitchWheelValue) override {}
     void controllerMoved (int controllerNumber, int newControllerValue) override {}
