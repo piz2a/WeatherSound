@@ -5,6 +5,7 @@ import { useJuceKnob, useJuceToggle } from './hooks/juce-hooks';
 import { logToLinear } from './utils/scale-transformation';
 import { Button } from './components/ui/button';
 import useOnClickOutside from './hooks/useOnClickOutside';
+import { pull } from './WeatherAPI';
 
 interface KnobProps {
   label: string;
@@ -211,6 +212,12 @@ function BypassButton({ paramId }: BypassButtonProps) {
 
 
 export default function LPFUI() {
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      console.log(await pull(30, 30));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [])
   return (
     <div className="w-[640px] h-[480px] bg-black bg-[radial-gradient(circle_at_center,_#111_0%,_#000_100%)] flex flex-col items-center justify-between p-6 overflow-hidden font-sans border border-slate-800 select-none">
       <div className="w-full flex justify-between items-center border-b border-cyan-900/30 pb-2">
