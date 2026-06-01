@@ -7,7 +7,7 @@ add_subdirectory(../JUCE bin/JUCE)
 
 juce_add_plugin(WeatherSound
     COMPANY_NAME "Jihoaudio"
-    IS_SYNTH FALSE
+    IS_SYNTH TRUE
     NEEDS_MIDI_INPUT FALSE
     NEEDS_MIDI_OUTPUT FALSE
     IS_MIDI_EFFECT FALSE
