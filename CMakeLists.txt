@@ -28,8 +28,8 @@ target_sources(WeatherSound PRIVATE
     Source/SimpleFilterChannel.h
     Source/dsp/FMSynth.cpp
     Source/dsp/FMSynth.h
-    Source/dsp/mathUtils.h
-    
+    Source/dsp/dspUtils.h
+
 )
 
 set(WEBVIEW_FILES_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/ui/dist")
