@@ -137,6 +137,15 @@ WeatherSoundAudioProcessorEditor::WeatherSoundAudioProcessorEditor(WeatherSoundA
                        .withOptionsFrom(windSpeedRelay)
                        .withOptionsFrom(windDirectionRelay)
                        .withOptionsFrom(visibilityRelay)
+                       // Mix relays
+                       .withOptionsFrom(cloudCoverageMixRelay)
+                       .withOptionsFrom(humidityMixRelay)
+                       .withOptionsFrom(temperatureMixRelay)
+                       .withOptionsFrom(uvIndexMixRelay)
+                       .withOptionsFrom(windSpeedMixRelay)
+                       .withOptionsFrom(windDirectionMixRelay)
+                       .withOptionsFrom(visibilityMixRelay)
+                       
                        .withOptionsFrom(bypassRelay)
                        .withNativeIntegrationEnabled() // Necessary
       )

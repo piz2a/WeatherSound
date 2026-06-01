@@ -301,6 +301,55 @@ AudioProcessorValueTreeState::ParameterLayout WeatherSoundAudioProcessor::create
             10.0f,
             5.0f
         ),
+        std::make_unique<AudioParameterFloat> (
+            ParameterID { "cloudCoverageMix", 1 },
+            "Cloud Coverage Mix",
+            0.0f,
+            100.0f,
+            50.0f
+        ),
+        std::make_unique<AudioParameterFloat> (
+            ParameterID { "humidityMix", 1 },
+            "Humidity Mix",
+            0.0f,
+            100.0f,
+            50.0f
+        ),
+        std::make_unique<AudioParameterFloat> (
+            ParameterID { "temperatureMix", 1 },
+            "Temperature Mix",
+            0.0f,
+            100.0f,
+            50.0f
+        ),
+        std::make_unique<AudioParameterFloat> (
+            ParameterID { "uvIndexMix", 1 },
+            "UV Index Mix",
+            0.0f,
+            100.0f,
+            50.0f
+        ),
+        std::make_unique<AudioParameterFloat> (
+            ParameterID { "windSpeedMix", 1 },
+            "Wind Speed Mix",
+            0.0f,
+            100.0f,
+            50.0f
+        ),
+        std::make_unique<AudioParameterFloat> (
+            ParameterID { "windDirectionMix", 1 },
+            "Wind Direction Mix",
+            0.0f,
+            100.0f,
+            50.0f
+        ),
+        std::make_unique<AudioParameterFloat> (
+            ParameterID { "visibilityMix", 1 },
+            "Visibility Mix",
+            0.0f,
+            100.0f,
+            50.0f
+        ),
         std::make_unique<AudioParameterBool> (
             ParameterID { "bypass", 1 },
             "Bypass",
