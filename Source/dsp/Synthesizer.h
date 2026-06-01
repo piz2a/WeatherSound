@@ -57,6 +57,7 @@ public:
     void pitchWheelMoved (int newPitchWheelValue) override {}
     void controllerMoved (int controllerNumber, int newControllerValue) override {}
 
+    void updateEnvelopeParams (juce::ADSR::Parameters adsr);
     void updateModDepthA (float mDepth);
     void updateModDepthB (float mDepth);
     void updateLevel (float lv);
