@@ -1,5 +1,7 @@
 #pragma once
-#include<JuceHeader.h>
+#include <juce_audio_basics/juce_audio_basics.h>
+#include <juce_audio_basics/synthesisers/juce_Synthesiser.h>
+#include <array>
 #include"FMSynth.h"
 
 class SynthSound : public juce::SynthesiserSound
@@ -51,4 +53,10 @@ private:
     float level = 0.0f;
     float phase = 0.0f;
     bool isTargetNoteActive = false;
+
+    std::array<FmOperator, 4> operators;
+    FmPreset currentPreset = FmPreset::ClassicWurly;
+
+    float renderAlgorithmSample(); 
+    void applyPresetParameters();
 };
