@@ -184,7 +184,7 @@ void WeatherSoundAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiB
         if (auto* voice = dynamic_cast<SynthVoice*>(fmSynth.getVoice(i)))
         {
             voice->updatePreset(preset);
-            voice->updateLevel(4.0);
+            voice->updateLevel(1.0);
         }
     }
     fmSynth.renderNextBlock(buffer, midiMessages, 0, numSamples);
