@@ -189,7 +189,7 @@ void WeatherSoundAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiB
     }
     fmSynth.renderNextBlock(buffer, midiMessages, 0, numSamples);
 
-    const float freq = cloudCoverageParam->load();
+    const float freq = cloudCoverageParam->load() * 4000.0 + 250;
     smoothedFreq.setTargetValue(freq);
     float currentFreq = smoothedFreq.getNextValue();
     smoothedFreq.skip(numSamples - 1);
