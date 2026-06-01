@@ -1,4 +1,3 @@
-#pragma once
 #include "Synthesizer.h"
 
 void SynthVoice::renderNextBlock (juce::AudioBuffer<float>& outputBuffer, 
@@ -37,6 +36,11 @@ void SynthVoice::updateModDepthB(float mDepth)
 void SynthVoice::updateLevel(float lvl)
 {
     level = lvl;
+}
+
+void SynthVoice::updateEnvelopeParams(juce::ADSR::Parameters adsr)
+{
+    
 }
 
 float SynthVoice::renderAlgorithmSample() 
