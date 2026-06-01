@@ -205,17 +205,16 @@ const Knob = ({ setValueRef, label, paramId, min, max, unit, isLog, decimalPlace
 const KnobWrapper = ({ setValueRef, label, paramId, min, max, unit, isLog, decimalPlaces = 0, initialValue = 0 }: KnobProps) => {
   return (
     <div className="flex gap-6 items-center flex-1 flex-wrap">
-      <ReadOnlySlider paramId="cloudCoverageMix" />
+      <ReadOnlySlider setValueRef={setValueRef} paramId={paramId} />
       <Knob
         label={label}
-        paramId={paramId}
+        paramId={paramId + "Mix"}
         min={min}
         max={max}
         unit={unit}
         isLog={isLog}
         decimalPlaces={decimalPlaces}
         initialValue={initialValue}
-        setValueRef={setValueRef}
       />
     </div>
   );
@@ -266,7 +265,7 @@ export default function LPFUI() {
       <div className="flex gap-6 items-center flex-1 flex-wrap">
         <KnobWrapper
           label="Cloud Coverage"
-          paramId="cloudCoverageMix"
+          paramId="cloudCoverage"
           min={0}
           max={100}
           unit="%"
@@ -274,7 +273,7 @@ export default function LPFUI() {
 
         <KnobWrapper
           label="Humidity"
-          paramId="humidityMix"
+          paramId="humidity"
           min={0}
           max={100}
           unit="%"
@@ -282,7 +281,7 @@ export default function LPFUI() {
 
         <KnobWrapper
           label="Temperature"
-          paramId="temperatureMix"
+          paramId="temperature"
           min={0}
           max={100}
           unit="%"
@@ -290,7 +289,7 @@ export default function LPFUI() {
 
         <KnobWrapper
           label="UV Index"
-          paramId="uvIndexMix"
+          paramId="uvIndex"
           min={0}
           max={100}
           unit="%"
@@ -298,7 +297,7 @@ export default function LPFUI() {
 
         <KnobWrapper
           label="Wind Speed"
-          paramId="windSpeedMix"
+          paramId="windSpeed"
           min={0}
           max={100}
           unit="%"
@@ -306,7 +305,7 @@ export default function LPFUI() {
 
         <KnobWrapper
           label="Wind Direction"
-          paramId="windDirectionMix"
+          paramId="windDirection"
           min={0}
           max={100}
           unit="%"
@@ -314,7 +313,7 @@ export default function LPFUI() {
 
         <KnobWrapper
           label="Visibility"
-          paramId="visibilityMix"
+          paramId="visibility"
           min={0}
           max={100}
           unit="%"
