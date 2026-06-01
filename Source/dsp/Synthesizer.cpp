@@ -2,7 +2,7 @@
 #include "Synthesizer.h"
 
 void SynthVoice::renderNextBlock (juce::AudioBuffer<float>& outputBuffer, 
-int startSample, int numSamples) override
+int startSample, int numSamples)
 {
-    
+
 }
