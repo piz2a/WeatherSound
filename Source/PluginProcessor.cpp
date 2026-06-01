@@ -14,6 +14,13 @@ WeatherSoundAudioProcessor::WeatherSoundAudioProcessor()
                        ), state(*this, nullptr, "parameters", createParameters())
 #endif
 {
+    fmSynth.addSound(new FmSound());
+
+    // polyphony
+    for (int i = 0; i < 8; ++i)
+    {
+        fmSynth.addVoice(new FmVoice());
+    }
 }
 
 WeatherSoundAudioProcessor::~WeatherSoundAudioProcessor()
