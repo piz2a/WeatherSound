@@ -59,6 +59,7 @@ private:
     AudioProcessorValueTreeState state;
     AudioProcessorValueTreeState::ParameterLayout createParameters();
     FmPreset getPreset(float temperature);
+    FmPreset preset = FmPreset::ClassicWurly;
     std::atomic<float>* freqParam;
     std::atomic<float>* resonanceParam;
     std::atomic<float>* cloudCoverageParam;

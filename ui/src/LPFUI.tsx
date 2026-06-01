@@ -310,7 +310,8 @@ export default function LPFUI() {
       }
     }, 10000);
     return () => clearInterval(interval);
-  }, [locationIndex])
+  }, [locationIndex]);
+  <CoordinateInput setState={setLocation} paramId="location" />;
   return (
     <div className="w-[640px] h-[720px] bg-black bg-[radial-gradient(circle_at_center,_#111_0%,_#000_100%)] flex flex-col items-center justify-between p-6 overflow-hidden font-sans border border-slate-800 select-none">
       <div className="w-full flex justify-between items-center border-b border-cyan-900/30 pb-2">

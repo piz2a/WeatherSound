@@ -13,6 +13,7 @@ function clamp(v: number, l: number, u: number) {
 }
 
 export async function pull(locationIndex: number): Promise<WeatherResponse> {
+  locationIndex;
 
 const latitude = Math.random() * 90 * (Math.random() > 0.5 ? 1 : -1)
 const longitude = Math.random() * 90 * (Math.random() > 0.5 ? 1 : -1)
