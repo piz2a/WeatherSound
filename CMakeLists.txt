@@ -8,12 +8,12 @@ add_subdirectory(JUCE)
 juce_add_plugin(WeatherSound
     COMPANY_NAME "Jihoaudio"
     IS_SYNTH TRUE
-    NEEDS_MIDI_INPUT TRUE
+    NEEDS_MIDI_INPUT FALSE
     NEEDS_MIDI_OUTPUT FALSE
     IS_MIDI_EFFECT FALSE
     EDITOR_WANTS_KEYBOARD_FOCUS TRUE
     COPY_PLUGIN_AFTER_BUILD FALSE
-    PLUGIN_CODE "Wtsd"
+    PLUGIN_CODE "Slft"
     FORMATS VST3 AU Standalone
     VST3_CAN_REPLACE_VST2 FALSE
 )
@@ -26,6 +26,10 @@ target_sources(WeatherSound PRIVATE
     Source/PluginEditor.h
     Source/SimpleFilterChannel.cpp
     Source/SimpleFilterChannel.h
+    Source/dsp/FMSynth.cpp
+    Source/dsp/FMSynth.h
+    Source/dsp/mathUtils.h
+    
 )
 
 set(WEBVIEW_FILES_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/ui/dist")
