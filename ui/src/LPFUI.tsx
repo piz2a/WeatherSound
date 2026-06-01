@@ -19,7 +19,7 @@ interface KnobProps {
   setValueRef?: React.Ref<((val: number) => void) | null>;
 }
 
-const ReadOnlySlider = ({ min, max, setValueRef, paramId }: { min: number; max: number; setValueRef?: React.Ref<((val: number) => void) | null>; paramId: string }) => {
+const ReadOnlySlider = ({ min, max, setValueRef, paramId, unit }: { min: number; max: number; setValueRef?: React.Ref<((val: number) => void) | null>; paramId: string; unit: string }) => {
   const { value, setValue } = useJuceSlider(paramId, min, max, false, 0, 0);
   if (setValueRef) {
     (setValueRef as React.MutableRefObject<((val: number) => void) | null>).current = setValue;
@@ -30,7 +30,7 @@ const ReadOnlySlider = ({ min, max, setValueRef, paramId }: { min: number; max: 
       <div className="w-full h-4 bg-slate-800 rounded-full overflow-hidden">
         <div className="h-full bg-cyan-400" style={{ width: `${((value - min) / (max - min)) * 100}%` }} />
       </div>
-      <span className="text-xs font-mono text-slate-500 mt-1">{value.toFixed(0)}%</span>
+      <span className="text-xs font-mono text-slate-500 mt-1">{value.toFixed(0)} {unit}</span>
     </div>
   );
 };
@@ -207,7 +207,10 @@ const KnobWrapper = ({ setValueRef, label, paramId, min, max, unit, isLog, decim
     <div className="flex gap-6 items-center flex-1 flex-wrap">
       <ReadOnlySlider setValueRef={setValueRef} 
         min={min}
-        max={max} paramId={paramId} />
+        max={max}
+        paramId={paramId}
+        unit={unit}
+      />
       <Knob
         label={label}
         paramId={paramId + "Mix"}
