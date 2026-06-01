@@ -8,8 +8,6 @@
 using namespace juce;
 
 //==============================================================================
-/**
-*/
 class WeatherSoundAudioProcessor  : public AudioProcessor
 {
 public:
