@@ -97,6 +97,9 @@ private:
     WebToggleButtonParameterAttachment bypassAttachment {
         *audioProcessor.getState().getParameter("bypass"), bypassRelay, nullptr
     };
+ WebComboBoxRelay locationRelay{"location"};
+  WebComboBoxParameterAttachment locationAttachment{
+      *audioProcessor.getState().getParameter("location"), locationRelay};
 
     WebBrowserComponent webComponent;
 

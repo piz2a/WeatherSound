@@ -1,7 +1,7 @@
 // TODO: Find out the reason why the log-knob's value get corrupted when we single click it
 
-import { useLayoutEffect, useRef, useEffect } from 'react';
-import { useJuceSlider, useJuceKnob, useJuceToggle } from './hooks/juce-hooks';
+import { useLayoutEffect, useRef, useEffect, useState, type Dispatch, type SetStateAction } from 'react';
+import { useJuceSlider, useJuceKnob, useJuceToggle, useJuceComboBox } from './hooks/juce-hooks';
 import { logToLinear } from './utils/scale-transformation';
 import { Button } from './components/ui/button';
 import useOnClickOutside from './hooks/useOnClickOutside';
@@ -229,6 +229,27 @@ interface BypassButtonProps {
   paramId: string;
 }
 
+function CoordinateInput({ paramId, setState }: BypassButtonProps & {setState: Dispatch<SetStateAction<number>>}) {
+  const { choiceIndex,
+        choices,
+        handleChoiceChange } = useJuceComboBox(paramId);
+
+  return (
+    <Button
+      type="button"
+      variant='outline'
+      size="sm"
+      onClick={() => {handleChoiceChange((choiceIndex + 1) % choices.length)
+        setState(choiceIndex)
+      }}
+      className={`h-8 w-24 px-3 text-[10px] font-black tracking-[0.2em] uppercase transition-all
+          border-slate-700 bg-slate-900 text-white hover:bg-slate-800`}
+    >
+      {choices[choiceIndex]}
+    </Button>
+  );
+}
+
 function BypassButton({ paramId }: BypassButtonProps) {
   const { value: isBypassed, handleToggle } = useJuceToggle(paramId);
 
@@ -258,11 +279,12 @@ export default function LPFUI() {
   const windSpeedRef:  React.Ref<((val: number) => void) | null> = useRef(null)
   const windDirectionRef:  React.Ref<((val: number) => void) | null> = useRef(null)
   const visibilityRef:  React.Ref<((val: number) => void) | null> = useRef(null)
+  const [locationIndex, setLocation] = useState(0)
   useEffect(() => {
-    const pollIntervalMs = 60_000;
+    // const pollIntervalMs = 60_000;
 
     const interval = setInterval(async () => {
-      const data = await pull(30, 30);
+      const data = await pull(locationIndex);
       if (cloudCoverageRef.current !== null) {
         cloudCoverageRef.current(data.cloudCoverage)
       }
@@ -284,8 +306,7 @@ export default function LPFUI() {
       if (visibilityRef.current !== null) {
         visibilityRef.current(data.visibility)
       }
-      console.log('Updated weather data:', data);
-    }, pollIntervalMs);
+    }, 10000);
     return () => clearInterval(interval);
   }, [])
   return (
@@ -295,6 +316,7 @@ export default function LPFUI() {
           WeatherSound
         </h1>
         <BypassButton paramId="bypass" />
+        <CoordinateInput setState={setLocation} paramId="location" />
       </div>
 
       {/* Control Section */}

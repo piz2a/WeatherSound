@@ -282,6 +282,9 @@ AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 
 AudioProcessorValueTreeState::ParameterLayout WeatherSoundAudioProcessor::createParameters()
 {
+    
+        StringArray places = {"Bogota",  "Seoul",     "Kalamazoo", "Tokyo",
+                              "Ushuaia", "Cape Town", "Austin",    "Dubai"};
     return {
     std::make_unique<AudioParameterFloat>(ParameterID{"freqHz", 1},
                                             "Frequency", 20.0f, 22050.0f, 1500.0f),
@@ -389,6 +392,8 @@ AudioProcessorValueTreeState::ParameterLayout WeatherSoundAudioProcessor::create
             ParameterID { "bypass", 1 },
             "Bypass",
             false
-        )
+        ),
+        std::make_unique<AudioParameterChoice>(ParameterID{"location", 1}, "Location",
+                    places, 0)
     };
 }
