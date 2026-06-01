@@ -13,32 +13,9 @@ function clamp(v: number, l: number, u: number) {
 }
 
 export async function pull(locationIndex: number): Promise<WeatherResponse> {
-  const getCoordinates = (locationIndex: number): { lat: number; lon: number } => {
-  switch (locationIndex) {
-    case 0: // Bogota
-      return { lat: 4.7110, lon: -74.0721 };
-    case 1: // Seoul
-      return { lat: 37.5665, lon: 126.9780 };
-    case 2: // Kalamazoo
-      return { lat: 42.2917, lon: -85.5872 };
-    case 3: // Tokyo
-      return { lat: 35.6764, lon: 139.6500 };
-    case 4: // Ushuaia
-      return { lat: -54.8019, lon: -68.3030 };
-    case 5: // Cape Town
-      return { lat: -33.9249, lon: 18.4241 };
-    case 6: // Austin
-      return { lat: 30.2672, lon: -97.7431 };
-    case 7: // Dubai
-      return { lat: 25.2048, lon: 55.2708 };
-    default:
-      // Fallback for out-of-bound indices
-      return { lat: 0.0, lon: 0.0 };
-  }
-};
-const coords = getCoordinates(locationIndex)
-const latitude = coords.lat
-const longitude = coords.lon
+
+const latitude = Math.random() * 90 * (Math.random() > 0.5 ? 1 : -1)
+const longitude = Math.random() * 90 * (Math.random() > 0.5 ? 1 : -1)
   try {
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=cloud_cover,relative_humidity_2m,temperature_2m,uv_index,wind_speed_10m,wind_direction_10m,visibility`;
     const resp = await fetch(url);
