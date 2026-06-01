@@ -1,4 +1,4 @@
-#include "FmOperator.h"
+#include "FMSynth.h"
 #include <cmath> // For std::sin
 
 void FmOperator::prepareToPlay(double sampleRate)
