@@ -1,5 +1,6 @@
 #pragma once
 #include<JuceHeader.h>
+#include"FMSynth.h"
 
 class SynthSound : public juce::SynthesiserSound
 {
