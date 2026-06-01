@@ -286,7 +286,7 @@ export default function LPFUI() {
     return () => clearInterval(interval);
   }, [])
   return (
-    <div className="w-[640px] h-[480px] bg-black bg-[radial-gradient(circle_at_center,_#111_0%,_#000_100%)] flex flex-col items-center justify-between p-6 overflow-hidden font-sans border border-slate-800 select-none">
+    <div className="w-[640px] h-[720px] bg-black bg-[radial-gradient(circle_at_center,_#111_0%,_#000_100%)] flex flex-col items-center justify-between p-6 overflow-hidden font-sans border border-slate-800 select-none">
       <div className="w-full flex justify-between items-center border-b border-cyan-900/30 pb-2">
         <h1 className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 drop-shadow-[0_0_10px_rgba(34,211,238,0.4)]">
           WeatherSound
@@ -295,7 +295,8 @@ export default function LPFUI() {
       </div>
 
       {/* Control Section */}
-      <div className="flex gap-6 items-center flex-1 flex-wrap">
+      <div className="flex flex-col gap-8 items-center flex-1 w-full justify-center">
+        <div className="flex flex-wrap gap-6 items-start justify-center w-full">
         <KnobWrapper
           label="Cloud Coverage"
           paramId="cloudCoverage"
@@ -358,6 +359,26 @@ export default function LPFUI() {
           unit="m"
           setValueRef={visibilityRef}
         />
+        </div>
+
+        <div className="flex flex-wrap gap-10 items-start justify-center w-full">
+          <Knob
+            label="Cutoff"
+            paramId="freqHz"
+            min={20}
+            max={22050}
+            unit="Hz"
+            isLog={true}
+          />
+          <Knob
+            label="Resonance"
+            paramId="resonance"
+            min={0}
+            max={10}
+            unit="dB"
+            decimalPlaces={1}
+          />
+        </div>
       </div>
 
       {/* Footer Decoration */}
