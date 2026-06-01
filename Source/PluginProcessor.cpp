@@ -102,6 +102,7 @@ void WeatherSoundAudioProcessor::prepareToPlay (double sampleRate, int samplesPe
         filter.setCoefficients();  // mandatory
     }
 
+    fmSynth.setCurrentPlaybackSampleRate(sampleRate);
     cloudCoverageParam = state.getRawParameterValue("cloudCoverage");
     humidityParam = state.getRawParameterValue("humidity");
     temperatureParam = state.getRawParameterValue("temperature");
@@ -163,6 +164,8 @@ void WeatherSoundAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiB
     // keep this code to avoid leaving garbage in the remaining output channels.
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
+
+    fmSynth.renderNextBlock(buffer, midiMessages, 0, numSamples);
 
     const float freq = cloudCoverageParam->load();
     smoothedFreq.setTargetValue(freq);
