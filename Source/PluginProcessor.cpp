@@ -103,6 +103,14 @@ void WeatherSoundAudioProcessor::prepareToPlay (double sampleRate, int samplesPe
     }
 
     fmSynth.setCurrentPlaybackSampleRate(sampleRate);
+    for (int i = 0; i < fmSynth.getNumVoices(); ++i)
+    {
+        if (auto* voice = dynamic_cast<SynthVoice*>(fmSynth.getVoice(i)))
+        {
+            voice->setCurrentPlaybackSampleRate(sampleRate);
+        }
+    }
+
   freqParam = state.getRawParameterValue("freqHz");
   resonanceParam = state.getRawParameterValue("resonance");
     cloudCoverageParam = state.getRawParameterValue("cloudCoverage");
