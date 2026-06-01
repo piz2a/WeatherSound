@@ -29,7 +29,7 @@ private:
     TextButton bypassButton;
     Label frequencyLabel {"FrequencyLabel", "Frequency"};
     WebSliderRelay cloudCoverageRelay { "cloudCoverage" };
-    WebSliderParameterAttachment freqAttachment {
+    WebSliderParameterAttachment cloudCoverageAttachment {
         *audioProcessor.getState().getParameter("cloudCoverage"), cloudCoverageRelay, nullptr
     };
     WebSliderRelay humidityRelay { "humidity" };
@@ -55,6 +55,35 @@ private:
     WebSliderRelay visibilityRelay { "visibility" };
     WebSliderParameterAttachment visibilityAttachment {
         *audioProcessor.getState().getParameter("visibility"), visibilityRelay, nullptr
+    };
+    // Relays and attachments for the mix parameters
+    WebSliderRelay cloudCoverageMixRelay { "cloudCoverageMix" };
+    WebSliderParameterAttachment cloudCoverageMixAttachment {
+        *audioProcessor.getState().getParameter("cloudCoverageMix"), cloudCoverageMixRelay, nullptr
+    };
+    WebSliderRelay humidityMixRelay { "humidityMix" };
+    WebSliderParameterAttachment humidityMixAttachment {
+        *audioProcessor.getState().getParameter("humidityMix"), humidityMixRelay, nullptr
+    };
+    WebSliderRelay temperatureMixRelay { "temperatureMix" };
+    WebSliderParameterAttachment temperatureMixAttachment {
+        *audioProcessor.getState().getParameter("temperatureMix"), temperatureMixRelay, nullptr
+    };
+    WebSliderRelay uvIndexMixRelay { "uvIndexMix" };
+    WebSliderParameterAttachment uvIndexMixAttachment {
+        *audioProcessor.getState().getParameter("uvIndexMix"), uvIndexMixRelay, nullptr
+    };
+    WebSliderRelay windSpeedMixRelay { "windSpeedMix" };
+    WebSliderParameterAttachment windSpeedMixAttachment {
+        *audioProcessor.getState().getParameter("windSpeedMix"), windSpeedMixRelay, nullptr
+    };
+    WebSliderRelay windDirectionMixRelay { "windDirectionMix" };
+    WebSliderParameterAttachment windDirectionMixAttachment {
+        *audioProcessor.getState().getParameter("windDirectionMix"), windDirectionMixRelay, nullptr
+    };
+    WebSliderRelay visibilityMixRelay { "visibilityMix" };
+    WebSliderParameterAttachment visibilityMixAttachment {
+        *audioProcessor.getState().getParameter("visibilityMix"), visibilityMixRelay, nullptr
     };
     WebToggleButtonRelay bypassRelay { "bypass" };
     WebToggleButtonParameterAttachment bypassAttachment {
