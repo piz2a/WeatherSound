@@ -75,9 +75,6 @@ float SynthVoice::renderAlgorithmSample()
             output = (op1Output + op3Output) * 0.5f * level;
             break;
         }
-        default:
-            break;
-    
         case FmPreset::LatelyBass:
         {
             // Algorithm 1: A 4-Operator Cascade (4 -> 3 -> 2 -> 1)
@@ -170,6 +167,8 @@ float SynthVoice::renderAlgorithmSample()
             output = (op1Output + op2Output + op3Output) * 0.33f * level;
             break;
         }
+        default:
+        break;
     }
 
     return output;
