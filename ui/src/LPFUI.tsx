@@ -1,7 +1,7 @@
 // TODO: Find out the reason why the log-knob's value get corrupted when we single click it
 
 import { useLayoutEffect, useRef, useEffect } from 'react';
-import { useJuceKnob, useJuceToggle } from './hooks/juce-hooks';
+import { useJuceSlider, useJuceKnob, useJuceToggle } from './hooks/juce-hooks';
 import { logToLinear } from './utils/scale-transformation';
 import { Button } from './components/ui/button';
 import useOnClickOutside from './hooks/useOnClickOutside';
@@ -18,6 +18,22 @@ interface KnobProps {
   decimalPlaces?: number;
   setValueRef?: React.Ref<((val: number) => void) | null>;
 }
+
+const ReadOnlySlider = ({ setValueRef, paramId }: { setValueRef?: React.Ref<((val: number) => void) | null>, paramId: string }) => {
+  const { value, setValue } = useJuceSlider(paramId, 0, 100, false, 0, 0);
+  if (setValueRef) {
+    (setValueRef as React.MutableRefObject<((val: number) => void) | null>).current = setValue;
+  }
+
+  return (
+    <div className="w-full">
+      <div className="w-full h-4 bg-slate-800 rounded-full overflow-hidden">
+        <div className="h-full bg-cyan-400" style={{ width: `${value}%` }} />
+      </div>
+      <span className="text-xs font-mono text-slate-500 mt-1">{value.toFixed(0)}%</span>
+    </div>
+  );
+};
 
 const Knob = ({ setValueRef, label, paramId, min, max, unit, isLog, decimalPlaces = 0, initialValue = 0 }: KnobProps) => {
   const knobRef = useRef<HTMLDivElement>(null);
@@ -186,6 +202,25 @@ const Knob = ({ setValueRef, label, paramId, min, max, unit, isLog, decimalPlace
   );
 };
 
+const KnobWrapper = ({ setValueRef, label, paramId, min, max, unit, isLog, decimalPlaces = 0, initialValue = 0 }: KnobProps) => {
+  return (
+    <div className="flex gap-6 items-center flex-1 flex-wrap">
+      <ReadOnlySlider paramId="cloudCoverageMix" />
+      <Knob
+        label={label}
+        paramId={paramId}
+        min={min}
+        max={max}
+        unit={unit}
+        isLog={isLog}
+        decimalPlaces={decimalPlaces}
+        initialValue={initialValue}
+        setValueRef={setValueRef}
+      />
+    </div>
+  );
+};
+
 interface BypassButtonProps {
   paramId: string;
 }
@@ -229,7 +264,7 @@ export default function LPFUI() {
 
       {/* Control Section */}
       <div className="flex gap-6 items-center flex-1 flex-wrap">
-        <Knob
+        <KnobWrapper
           label="Cloud Coverage"
           paramId="cloudCoverageMix"
           min={0}
@@ -237,7 +272,7 @@ export default function LPFUI() {
           unit="%"
         />
 
-        <Knob
+        <KnobWrapper
           label="Humidity"
           paramId="humidityMix"
           min={0}
@@ -245,7 +280,7 @@ export default function LPFUI() {
           unit="%"
         />
 
-        <Knob
+        <KnobWrapper
           label="Temperature"
           paramId="temperatureMix"
           min={0}
@@ -253,7 +288,7 @@ export default function LPFUI() {
           unit="%"
         />
 
-        <Knob
+        <KnobWrapper
           label="UV Index"
           paramId="uvIndexMix"
           min={0}
@@ -261,7 +296,7 @@ export default function LPFUI() {
           unit="%"
         />
 
-        <Knob
+        <KnobWrapper
           label="Wind Speed"
           paramId="windSpeedMix"
           min={0}
@@ -269,7 +304,7 @@ export default function LPFUI() {
           unit="%"
         />
 
-        <Knob
+        <KnobWrapper
           label="Wind Direction"
           paramId="windDirectionMix"
           min={0}
@@ -277,7 +312,7 @@ export default function LPFUI() {
           unit="%"
         />
 
-        <Knob
+        <KnobWrapper
           label="Visibility"
           paramId="visibilityMix"
           min={0}
