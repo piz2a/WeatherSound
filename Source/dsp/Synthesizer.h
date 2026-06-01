@@ -82,6 +82,7 @@ public:
     void updateModDepthA (float mDepth);
     void updateModDepthB (float mDepth);
     void updateLevel (float lv);
+    void updatePreset (FmPreset preset);
 
 private:
     float level = 0.0f;
