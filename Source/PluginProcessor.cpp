@@ -165,6 +165,7 @@ void WeatherSoundAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiB
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
+    
     fmSynth.renderNextBlock(buffer, midiMessages, 0, numSamples);
 
     const float freq = cloudCoverageParam->load();
