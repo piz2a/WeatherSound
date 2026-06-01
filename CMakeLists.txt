@@ -3,7 +3,7 @@ project(WeatherSound VERSION 0.0.1)
 # JUCE의 안전 장치를 전역 수준에서 강제로 끔
 add_compile_definitions(JUCE_VST3_CAN_REPLACE_VST2=0)
 
-add_subdirectory(../JUCE bin/JUCE)
+add_subdirectory(JUCE)
 
 juce_add_plugin(WeatherSound
     COMPANY_NAME "Jihoaudio"
@@ -29,6 +29,17 @@ target_sources(WeatherSound PRIVATE
 )
 
 set(WEBVIEW_FILES_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/ui/dist")
+execute_process(
+    COMMAND npm run build
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/ui
+)
+add_custom_target(BuildUI ALL
+    COMMAND npm run build
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/ui
+    BYPRODUCTS ${WEBVIEW_FILES_SOURCE_DIR}
+)
+add_dependencies(WeatherSound BuildUI)
+
 set(TARGET_WEBVIEW_FILES_ZIP_PATH "${CMAKE_BINARY_DIR}/webview_files.zip")
 get_filename_component(PUBLIC_PATH "${WEBVIEW_FILES_SOURCE_DIR}" ABSOLUTE)
 file(
